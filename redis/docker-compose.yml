@@ -1,0 +1,19 @@
+services:
+  redis:
+    container_name: redis
+    network_mode: bridge
+    image: 'redis:8.2.1-alpine'
+    volumes:
+      - data:/data
+    ports:
+      - 127.0.0.1:6379:6379
+
+  redisinsight:
+    container_name: redisinsight
+    network_mode: bridge
+    image: 'redis/redisinsight:latest'
+    ports:
+      - 127.0.0.1:5540:5540
+
+volumes:
+  data:
