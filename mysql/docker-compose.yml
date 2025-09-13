@@ -1,0 +1,12 @@
+services:
+  db:
+    image: mariadb:lts
+    network_mode: bridge
+    environment:
+      - MARIADB_ROOT_PASSWORD=piepiepie12@A
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - 127.0.0.1:3306:3306
+volumes:
+  data:
