@@ -1,0 +1,36 @@
+networks:
+  net:
+    driver: bridge
+
+services:
+  auth:
+    image: registry.supertokens.io/supertokens/supertokens-postgresql:latest
+    ports:
+      - 3567:3567
+    environment:
+      - POSTGRESQL_CONNECTION_URI="postgres://supertokens:supertokens@postgres:5432/supertokens"
+    networks:
+      - net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: 'postgres:13-alpine'
+    networks:
+      - net
+    environment:
+      - POSTGRES_PASSWORD=supertokens
+      - POSTGRES_USER=supertokens
+      - POSTGRES_DB=supertokens
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
